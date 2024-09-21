@@ -1,7 +1,7 @@
 {
   "name": "qwik-latex",
-  "version": "0.0.1",
-  "description": "Create a Qwik library",
+  "version": "1.0.1",
+  "description": "Katex based LaTeX rendering for Qwik",
   "main": "./lib/index.qwik.mjs",
   "qwik": "./lib/index.qwik.mjs",
   "types": "./lib-types/index.d.ts",
