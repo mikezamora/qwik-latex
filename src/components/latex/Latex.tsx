@@ -1,6 +1,10 @@
 import type { QRL } from "@builder.io/qwik";
-import { component$ } from "@builder.io/qwik";
+import { component$, useStyles$, useOnDocument, $ } from "@builder.io/qwik";
 import katex, { TrustContext } from "katex";
+// require('katex/contrib/mhchem'); // TODO chemistry support
+import styles from "../../katex.css?inline";
+import * as mhchem from "./mhchem";
+import * as copytex from "./copy-tex";
 
 interface LatexOptions {
   displayMode?: boolean;
@@ -17,11 +21,17 @@ interface LatexOptions {
   trust?: boolean | ((context: TrustContext) => boolean);
 }
 
-export const LaTeX = component$<{ options?: LatexOptions, latex?: string }>(
+export const LaTeX = component$<{ options?: LatexOptions; latex?: string }>(
   ({ options = {}, latex = "" }) => {
+    useOnDocument(
+      "load",
+      $(() => {
+        copytex.init();
+        mhchem;
+      }),
+    );
+    useStyles$(styles);
     const latexify = (children: string, options: katex.KatexOptions) => {
-      console.log("children:", children);
-      console.log("options:", options);
       const regularExpression =
         /\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$[^$\\]*(?:\\.[^$\\]*)*\$/g;
       const blockRegularExpression = /\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]/g;
@@ -35,7 +45,7 @@ export const LaTeX = component$<{ options?: LatexOptions, latex?: string }>(
         stringToDisplay.match(blockRegularExpression) ? "block" : "inline";
 
       const renderLatexString = (latexStr: string, typeStr: string) => {
-        let renderedString;
+        let renderedString = latexStr;
         try {
           // returns HTML markup
           renderedString = katex.renderToString(
@@ -47,7 +57,6 @@ export const LaTeX = component$<{ options?: LatexOptions, latex?: string }>(
         } catch (err) {
           console.error("Error rendering LaTeX:", err);
           console.error("couldn`t convert string", latexStr);
-          return latexStr;
         }
         return renderedString;
       };
@@ -82,7 +91,6 @@ export const LaTeX = component$<{ options?: LatexOptions, latex?: string }>(
           if (val.type === "text") {
             return val.string;
           }
-          console.log("val.string:", val.string);
           return (
             <span
               key={`latex-${idx}`}
@@ -96,7 +104,7 @@ export const LaTeX = component$<{ options?: LatexOptions, latex?: string }>(
       return processResult(result);
     };
 
-    const  {
+    const {
       displayMode = false,
       leqno = false,
       fleqn = false,
@@ -123,9 +131,8 @@ export const LaTeX = component$<{ options?: LatexOptions, latex?: string }>(
       maxSize,
       maxExpand,
       strict,
-      trust
+      trust,
     });
-    console.log("latexElements:", latexElements);
 
     return (
       <div class={"m-4"}>
