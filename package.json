@@ -52,6 +52,6 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
-    "katex": "^0.16.11"
+    "katex": "0.16.11"
   }
 }
