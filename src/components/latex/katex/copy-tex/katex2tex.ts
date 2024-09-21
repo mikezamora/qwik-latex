@@ -64,4 +64,4 @@ export function katexReplaceWithTex(
   return fragment;
 }
 
-export default katexReplaceWithTex;
+// export default katexReplaceWithTex;

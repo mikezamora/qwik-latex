@@ -1,6 +1,6 @@
 // @flow
 
-import katexReplaceWithTex from "./katex2tex";
+import { katexReplaceWithTex } from "./katex2tex";
 
 // Return <div class="katex"> element containing node, or null if not found.
 function closestKatex(node: Node): Element | null | undefined {
