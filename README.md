@@ -1,6 +1,6 @@
 # Qwik LaTeX
 
-`qwik-latex` provides a TypeScript component for rendering LaTeX math and chemical notation in Qwik applications using the KaTeX library. It is designed for research applications requiring fast and accurate display of complex mathematical and scientific notation.
+[`qwik-latex`](https://www.npmjs.com/package/qwik-latex) provides a TypeScript component for rendering LaTeX math and chemical notation in Qwik applications using the KaTeX library. It is designed for research applications requiring fast and accurate display of complex mathematical and scientific notation.
 
 ## KaTeX Integration
 
@@ -10,7 +10,7 @@
 
 ### Installation
 
-To get started, you'll need to install package if you haven't already. You can do this with npm.
+To get started, you'll need to install package if you haven't already. You can do this with npm. https://www.npmjs.com/package/qwik-latex
 
 ```bash
 npm install qwik-latex
