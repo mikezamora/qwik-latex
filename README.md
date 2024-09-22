@@ -4,7 +4,7 @@
 
 ## KaTeX Integration
 
-KaTeX is a high-speed LaTeX rendering library known for its ability to render complex mathematical expressions with low latency. Unlike MathJax, KaTeX focuses on performance by compiling LaTeX to HTML and CSS, ensuring fast page loads and reliable rendering even in resource-constrained environments.
+[KaTeX](https://github.com/KaTeX/KaTeX) is a high-speed LaTeX rendering library known for its ability to render complex mathematical expressions with low latency. Unlike MathJax, KaTeX focuses on performance by compiling LaTeX to HTML and CSS, ensuring fast page loads and reliable rendering even in resource-constrained environments.
 
 `qwik-latex` integrates KaTeX directly into Qwik components, enabling real-time rendering of mathematical formulas, chemical equations, and customizable macros in both inline and display formats.
 
@@ -14,6 +14,28 @@ To get started, you'll need to install package if you haven't already. You can d
 
 ```bash
 npm install qwik-latex
+```
+
+### Latex String Literal
+
+This library includes a string template helper `latex` that can be used to assign complex latex expressions without typescript/qwik `\` parsing issues
+
+```tsx
+import { component$ } from "@builder.io/qwik";
+import { LaTeX, latex } from "qwik-latex";
+
+export const TheoremComponent = component$(() => {
+  const complexEquation = latex`$f(x) = \int_{-\infty}^\infty \hat f(\xi)\,e^{2 \pi i \xi x} \, d\xi$`;
+
+  return (
+    <div>
+      <h1>Theorem:</h1>
+      <LaTeX shouldRenderMathInElement>
+        <p>{equation}</p>
+      </LaTeX>
+    </div>
+  );
+});
 ```
 
 ### Component Props
@@ -38,11 +60,11 @@ npm install qwik-latex
 
 `qwik-latex` includes support for several important KaTeX plugins:
 
-- **`auto-render`**: This plugin enables automatic detection of LaTeX expressions within the specified DOM element. It can be activated by setting `shouldRenderMathInElement` to `true` and providing either a child component, `elementId`, or `elementRef`. This is useful for rendering dynamically loaded content that contains LaTeX.
+- [**`auto-render`**](https://katex.org/docs/autorender): This plugin enables automatic detection of LaTeX expressions within the specified DOM element. It can be activated by setting `shouldRenderMathInElement` to `true` and providing either a child component, `elementId`, or `elementRef`. This is useful for rendering dynamically loaded content that contains LaTeX.
 
-- **`mhchem`**: This plugin allows for the rendering of chemical equations using LaTeX’s `mhchem` syntax, which is particularly useful in scientific and chemistry-based documentation.
+- [**`mhchem`**](https://github.com/KaTeX/KaTeX/tree/main/contrib/mhchem): This plugin allows for the rendering of chemical equations using LaTeX’s `mhchem` syntax, which is particularly useful in scientific and chemistry-based documentation.
 
-- **`copy-tex`**: This plugin enables copying of the rendered LaTeX as plain text. When users select and copy the rendered content, the original LaTeX markup is copied, ensuring fidelity in reproducing equations for use in documents or papers.
+- [**`copy-tex`**](https://github.com/KaTeX/KaTeX/tree/main/contrib/copy-tex): This plugin enables copying of the rendered LaTeX as plain text. When users select and copy the rendered content, the original LaTeX markup is copied, ensuring fidelity in reproducing equations for use in documents or papers.
 
 #### Examples
 
@@ -50,14 +72,14 @@ npm install qwik-latex
 
 ```tsx
 import { component$ } from "@builder.io/qwik";
-import { LaTeX } from "qwik-latex";
+import { LaTeX, latex } from "qwik-latex";
 
 export const MyComponent = component$(() => {
-  const equation = "c = \\pm\\sqrt{a^2 + b^2}";
+  const equation = latex`$f(x) = \int_{-\infty}^\infty \hat f(\xi)\,e^{2 \pi i \xi x} \, d\xi$`;
 
   return (
     <div>
-      <h1>Pythagorean Theorem:</h1>
+      <h1>Theorem:</h1>
       <LaTeX latex={equation} options={{ displayMode: true }} />
     </div>
   );
@@ -95,7 +117,7 @@ If there’s an error in the LaTeX string, the invalid part is rendered in red (
   This is an equation: \(E = mc^2\)
 </div>
 
-<LaTeX shouldRenderMathInElement={true} elementId="math-container" />
+<LaTeX shouldRenderMathInElement elementId="math-container" />
 ```
 
 This example enables the `auto-render` plugin to detect and render LaTeX expressions inside a specified DOM element, using the `elementId`.
@@ -104,6 +126,10 @@ This example enables the `auto-render` plugin to detect and render LaTeX express
 
 ```tsx
 <LaTeX latex="\ce{H2O + CO2 -> H2CO3}" />
+```
+
+```tsx
+<LaTeX latex={latex`$C_p[\ce{H2O(l)}] = \pu{75.3 J // mol K}$`} />
 ```
 
 This renders a chemical equation using the `mhchem` plugin, useful for scientific papers.
