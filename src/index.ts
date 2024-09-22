@@ -1,2 +1,4 @@
-export { LaTeX } from "./components/latex/Latex";
-export { latex } from "./lib/latexString";
+import { LaTeX } from "./components/latex/Latex";
+import { latex } from "./lib/LatexString";
+
+export { LaTeX, latex };

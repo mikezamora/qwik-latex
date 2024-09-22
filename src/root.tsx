@@ -1,8 +1,7 @@
 import { component$, useId, useSignal } from "@builder.io/qwik";
-import { LaTeX } from "./components/latex/Latex";
 import { ClipboardInput } from "./components/clipboard/ClipboardInput";
 import "./global.css";
-import { latex } from "./lib/latexString";
+import { latex, LaTeX } from ".";
 
 export default component$(() => {
   const outputRef = useSignal<Element>();
