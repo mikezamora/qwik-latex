@@ -1,4 +1,4 @@
-# Qwik Latex
+# Qwik LaTeX
 
 `qwik-latex` provides a TypeScript component for rendering LaTeX math and chemical notation in Qwik applications using the KaTeX library. It is designed for research applications requiring fast and accurate display of complex mathematical and scientific notation.
 
