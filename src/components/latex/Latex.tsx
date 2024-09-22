@@ -64,6 +64,9 @@ export const LaTeX = component$<{
 
     const mathInElementRenderer = $(
       (outputElement: Element | HTMLElement | null) => {
+        copytex.init();
+        mhchem;
+
         renderMathInElement(outputElement, {
           displayMode,
           leqno,
