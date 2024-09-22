@@ -1,47 +1,113 @@
-# Qwik Library ⚡️
+# Qwik Latex
 
-- [Qwik Docs](https://qwik.dev/)
-- [Discord](https://qwik.dev/chat)
-- [Qwik on GitHub](https://github.com/QwikDev/qwik)
-- [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
-- [Partytown](https://partytown.builder.io/)
-- [Mitosis](https://github.com/BuilderIO/mitosis)
-- [Builder.io](https://www.builder.io/)
+`qwik-latex` provides a TypeScript component for rendering LaTeX math and chemical notation in Qwik applications using the KaTeX library. It is designed for research applications requiring fast and accurate display of complex mathematical and scientific notation.
 
----
+## KaTeX Integration
 
-## Project Structure
+KaTeX is a high-speed LaTeX rendering library known for its ability to render complex mathematical expressions with low latency. Unlike MathJax, KaTeX focuses on performance by compiling LaTeX to HTML and CSS, ensuring fast page loads and reliable rendering even in resource-constrained environments.
 
-Inside your project, you'll see the following directories and files:
+`qwik-latex` integrates KaTeX directly into Qwik components, enabling real-time rendering of mathematical formulas, chemical equations, and customizable macros in both inline and display formats.
 
-```
-├── public/
-│   └── ...
-└── src/
-    ├── components/
-    │   └── ...
-    └── index.ts
+### Installation
+
+To get started, you'll need to install package if you haven't already. You can do this with npm.
+
+```bash
+npm install qwik-latex
 ```
 
-- `src/components`: Recommended directory for components.
+### Component Props
 
-- `index.ts`: The entry point of your component library, make sure all the public components are exported from this file.
+- **`latex`**: (optional) A LaTeX string to be rendered. If omitted, the component will render LaTeX found in child elements or a target element defined by `elementId` or `elementRef`.
+- **`options`**: (optional) Configuration options for KaTeX rendering:
+  - **`displayMode`**: Boolean (default: `false`). If `true`, renders the LaTeX expression in display mode, centered on the page.
+  - **`leqno`**: Boolean (default: `false`). If `true`, equation numbers are displayed on the left.
+  - **`fleqn`**: Boolean (default: `false`). If `true`, aligns displayed equations to the left instead of centered.
+  - **`throwOnError`**: Boolean (default: `true`). If `true`, throws an error if the LaTeX expression cannot be parsed. If `false`, renders the invalid input in red.
+  - **`errorColor`**: String (default: `#cc0000`). Color used to highlight LaTeX errors.
+  - **`macros`**: Object (default: `{}`). Define custom LaTeX macros.
+  - **`strict`**: Boolean or string (default: `false`). Enables strict parsing mode to enforce LaTeX standards.
+  - **`trust`**: Boolean or function (default: `false`). Controls whether potentially unsafe LaTeX commands are allowed.
+- **`shouldRenderMathInElement`**: (optional) Boolean. If `true`, enables KaTeX’s `auto-render` feature to automatically detect and render LaTeX expressions in the target DOM element.
 
-## Development
+- **`elementRef`**: (optional) Qwik `Signal` used to reference a specific DOM element where LaTeX should be rendered.
 
-Development mode uses [Vite's development server](https://vitejs.dev/). For Qwik during development, the `dev` command will also server-side render (SSR) the output. The client-side development modules are loaded by the browser.
+- **`elementId`**: (optional) ID of the DOM element where the LaTeX should be rendered when `auto-render` is enabled.
 
+#### Plugin Support
+
+`qwik-latex` includes support for several important KaTeX plugins:
+
+- **`auto-render`**: This plugin enables automatic detection of LaTeX expressions within the specified DOM element. It can be activated by setting `shouldRenderMathInElement` to `true` and providing either a child component, `elementId`, or `elementRef`. This is useful for rendering dynamically loaded content that contains LaTeX.
+
+- **`mhchem`**: This plugin allows for the rendering of chemical equations using LaTeX’s `mhchem` syntax, which is particularly useful in scientific and chemistry-based documentation.
+
+- **`copy-tex`**: This plugin enables copying of the rendered LaTeX as plain text. When users select and copy the rendered content, the original LaTeX markup is copied, ensuring fidelity in reproducing equations for use in documents or papers.
+
+#### Examples
+
+**Basic Usage:**
+
+```tsx
+import { component$ } from "@builder.io/qwik";
+import { LaTeX } from "qwik-latex";
+
+export const MyComponent = component$(() => {
+  const equation = "c = \\pm\\sqrt{a^2 + b^2}";
+
+  return (
+    <div>
+      <h1>Pythagorean Theorem:</h1>
+      <LaTeX latex={equation} options={{ displayMode: true }} />
+    </div>
+  );
+});
 ```
-npm run dev
+
+This renders the Pythagorean theorem in display mode using KaTeX.
+
+**Custom Macros:**
+
+```tsx
+<LaTeX
+  latex="f(x) = \\macroA + \\macroB"
+  options={{ macros: { "\\macroA": "ax^2", "\\macroB": "bx + c" } }}
+/>
 ```
 
-> Note: during dev mode, Vite will request many JS files, which does not represent a Qwik production build.
+In this example, custom macros are defined for `\\macroA` and `\\macroB`, allowing for reusable LaTeX components within equations.
 
-## Production
+**Error Handling:**
 
-The production build should generate the production build of your component library in (./lib) and the typescript type definitions in (./lib-types).
-
+```tsx
+<LaTeX
+  latex="E = mc^"
+  options={{ throwOnError: false, errorColor: "#ff0000" }}
+/>
 ```
-npm run build
+
+If there’s an error in the LaTeX string, the invalid part is rendered in red (`#ff0000`), and the component does not throw an error.
+
+**Auto-Rendering LaTeX in an Element:**
+
+```tsx
+<div id="math-container">
+  This is an equation: \(E = mc^2\)
+</div>
+
+<LaTeX shouldRenderMathInElement={true} elementId="math-container" />
 ```
+
+This example enables the `auto-render` plugin to detect and render LaTeX expressions inside a specified DOM element, using the `elementId`.
+
+**Rendering Chemical Equations:**
+
+```tsx
+<LaTeX latex="\ce{H2O + CO2 -> H2CO3}" />
+```
+
+This renders a chemical equation using the `mhchem` plugin, useful for scientific papers.
+
+#### Conclusion
+
+`qwik-latex` provides a flexible and efficient solution for rendering LaTeX-based equations and scientific notation in Qwik applications. By leveraging KaTeX, it ensures high-performance rendering of complex mathematical and chemical content with support for error handling, custom macros, and KaTeX plugins like `mhchem`, `copy-tex`, and `auto-render`. This makes it suitable for academic and research-based applications where precision and performance are critical.
