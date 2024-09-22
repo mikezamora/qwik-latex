@@ -2,6 +2,22 @@
   "name": "qwik-latex",
   "version": "1.0.1",
   "description": "Katex based LaTeX rendering for Qwik",
+  "author": "Mike Zamora <https://github.com/mikezamora>",
+  "license": "MIT",
+  "keywords": [
+    "qwik",
+    "latex",
+    "katex",
+    "qwik-latex",
+    "qwik-katex",
+    "copy-tex",
+    "mhchem",
+    "auto-render"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikezamora/qwik-latex"
+  },
   "main": "./lib/index.qwik.mjs",
   "qwik": "./lib/index.qwik.mjs",
   "types": "./lib-types/index.d.ts",
