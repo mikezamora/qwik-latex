@@ -65,6 +65,7 @@ export const LaTeX = component$<{
     const mathInElementRenderer = $(
       (outputElement: Element | HTMLElement | null) => {
         copytex.init();
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         mhchem;
 
         renderMathInElement(outputElement, {
@@ -112,6 +113,7 @@ export const LaTeX = component$<{
       "load",
       $(() => {
         copytex.init();
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         mhchem;
 
         if (shouldRenderMathInElement && elementRef?.value) {

@@ -18,10 +18,10 @@ interface LatexOptions {
     trust?: boolean | ((context: TrustContext) => boolean);
 }
 export declare const LaTeX: import("@builder.io/qwik").Component<{
-    options?: LatexOptions | undefined;
-    latex?: string | undefined;
-    shouldRenderMathInElement?: boolean | undefined;
-    elementRef?: Signal<Element | undefined> | undefined;
-    elementId?: string | undefined;
+    options?: LatexOptions;
+    latex?: string;
+    shouldRenderMathInElement?: boolean;
+    elementRef?: Signal<Element | undefined>;
+    elementId?: string;
 }>;
 export {};
