@@ -10,7 +10,7 @@
 
 ### Installation
 
-To get started, you'll need to install package if you haven't already. You can do this with npm. https://www.npmjs.com/package/qwik-latex
+To get started, you'll need to install package if you haven't already. You can do this with [npm](https://www.npmjs.com/package/qwik-latex). 
 
 ```bash
 npm install qwik-latex
