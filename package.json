@@ -1,6 +1,6 @@
 {
   "name": "qwik-latex",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Katex based LaTeX rendering for Qwik",
   "author": "Mike Zamora <https://github.com/mikezamora>",
   "license": "MIT",
